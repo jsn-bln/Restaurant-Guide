@@ -1,7 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
 import HomePage from "./Components/Homepage";
-import AddRestaurant from "./Components/AddRestaurant"
+import AddRestaurantScreen from "./Components/AddRestaurant"
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
@@ -12,12 +12,12 @@ export default function App() {
   return (
     <NavigationContainer>
     <Stack.Navigator>
-      <Stack.Screen name="Home" component={HomePage} 
+      <Stack.Screen name="Homepage" component={HomePage} 
         options={{
           headerShown: false,
           cardStyle: { paddingTop: 100, backgroundColor: '#f1faee' }, 
         }}/>
-      <Stack.Screen name="AddRestaurant" component={AddRestaurant} 
+      <Stack.Screen name="AddRestaurant" component={AddRestaurantScreen} 
         options={{
           headerShown: false,
           cardStyle: { paddingTop: 100, backgroundColor: '#f1faee' }, 
