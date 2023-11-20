@@ -5,6 +5,7 @@ import AddRestaurantScreen from "./Components/AddRestaurant"
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import Details from './Components/Details'
+import About from './Components/About';
 
 const Stack = createStackNavigator();
 
@@ -27,6 +28,13 @@ export default function App() {
         options={{
           headerShown: false,
           cardStyle: { paddingTop: 100, backgroundColor: '#f1faee' }, 
+        }}/>
+
+        <Stack.Screen name="About" component={About} 
+        options={{
+          headerShown: false,
+          cardStyle: { paddingTop: 100, backgroundColor: '#f1faee'
+         }, 
         }}/>
         
     </Stack.Navigator>

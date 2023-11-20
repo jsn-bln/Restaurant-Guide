@@ -45,6 +45,12 @@ export default function App({navigation}) {
             <Text style={styles.text}>Add Restaurant</Text>
           </Pressable>
         </View>
+        <View style={styles.bottomButtonContainer}>
+          <Pressable style={styles.button}
+                onPress={() => navigation.navigate('About')}>
+            <Text style={styles.text}>About</Text>
+          </Pressable>
+        </View>
         <StatusBar style="auto" />
       </View>
     );
@@ -89,5 +95,7 @@ export default function App({navigation}) {
       fontWeight: 'bold',
       letterSpacing: 0.25,
       color: 'white',
-    }
+    },
+   
+    
   });

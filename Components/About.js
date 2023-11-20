@@ -1,32 +1,14 @@
 import React from 'react';
 import {View, Text, StyleSheet, Pressable} from 'react-native';
 
-const Details = ({ navigation}) => {
-    const {details} = navigation.params || {};
-    const {name, address, description, tag} = details || {};
+const About = ({ navigation}) => {
+  
 
     return(
       <View style={styles.container}>
-        <Text style={styles.title}>{name}</Text>
         <View style={styles.detailContainer}>
-        <View style={styles.detailItem}>
-            <Text style={styles.label}>Name:</Text>
-            <Text style={styles.detailText}>{name}</Text>
-          </View>
-          <View style={styles.detailItem}>
-            <Text style={styles.label}>Address:</Text>
-            <Text style={styles.detailText}>{address}</Text>
-          </View>
-          <View style={styles.detailItem}>
-            <Text style={styles.label}>Description:</Text>
-            <Text style={styles.detailText}>{description}</Text>
-          </View>
-          <View style={styles.detailItem}>
-            <Text style={styles.label}>Tag:</Text>
-            <Text style={styles.detailText}>{tag}</Text>
-          </View>
-        </View>
-        <View>
+        <Text style={styles.label}>Jayson Balano - 101397558</Text>
+        <Text style={styles.label}>Nhan Nguyen - 101358649</Text>
         <Pressable style={styles.button}
                 onPress={() => navigation.navigate('Homepage')}>
             <Text style={styles.text}>Go Back</Text>
@@ -49,12 +31,6 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     paddingBottom: 100,
     backgroundColor: '#f1faee',
-  },
-  title: {
-    fontWeight: 'bold',
-    fontSize: 20,
-    color: "#1d3557",
-    textAlign: 'center'
   },
   label:{
     fontWeight: 'bold',
@@ -88,4 +64,5 @@ const styles = StyleSheet.create({
 
 });
 
-export default Details;
+
+export default About
