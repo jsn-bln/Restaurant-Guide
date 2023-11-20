@@ -1,14 +1,18 @@
 import React from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import {View, Text, StyleSheet, Pressable} from 'react-native';
 
 const Details = ({ navigation}) => {
     const {details} = navigation.params || {};
     const {name, address, description, tag} = details || {};
 
     return(
-        <View style={styles.container}>
+      <View style={styles.container}>
         <Text style={styles.title}>{name}</Text>
         <View style={styles.detailContainer}>
+        <View style={styles.detailItem}>
+            <Text style={styles.label}>Name:</Text>
+            <Text style={styles.detailText}>{name}</Text>
+          </View>
           <View style={styles.detailItem}>
             <Text style={styles.label}>Address:</Text>
             <Text style={styles.detailText}>{address}</Text>
@@ -22,6 +26,13 @@ const Details = ({ navigation}) => {
             <Text style={styles.detailText}>{tag}</Text>
           </View>
         </View>
+        <View>
+        <Pressable style={styles.button}
+                onPress={() => navigation.navigate('Homepage')}>
+            <Text style={styles.text}>Go Back</Text>
+          </Pressable>
+        </View>
+        
       </View>
 
 
@@ -45,14 +56,15 @@ const styles = StyleSheet.create({
     color: "#1d3557",
     textAlign: 'center'
   },
-  header: {
-    fontSize: 17,
-    paddingLeft: 30,
-    marginTop: 20
-  },
-  bottomButtonContainer: {
-    width: '100%',
+  label:{
+    fontWeight: 'bold',
+    fontSize: 20,
+    color: "#1d3557",
+    textAlign: 'center',
     alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingBottom: 200,
+    backgroundColor: '#f1faee',
   },
   button: {
     alignItems: 'center',
@@ -64,13 +76,9 @@ const styles = StyleSheet.create({
     backgroundColor: '#e63946',
     width: 200,
   },
-  text: {
-    fontSize: 16,
-    lineHeight: 21,
-    fontWeight: 'bold',
-    letterSpacing: 0.25,
-    color: 'white',
-  }
+ 
+ 
+
 });
 
 export default Details;
