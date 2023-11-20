@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, Pressable, Dimensions } from 'react-native';
+import { StyleSheet, Text, View, Pressable, Dimensions, TouchableOpacity } from 'react-native';
 import SearchBar from './SearchBar';
 import React,{useState} from 'react';
 
@@ -8,6 +8,17 @@ import React,{useState} from 'react';
 export default function App({navigation}) {
     const [clicked, setClicked] = useState(false);
     const [searchPhrase, setSearchPhrase] = useState('');
+
+    const restaurantDetails = {
+      name:"The Fry",
+      address:"524 Bloor St W",
+      description:"Good korean fried chicken spot",
+      tag:"korean, fried chicken, bussing",
+
+    };
+    const handleRestaurantPress = () => {
+      navigation.navigate('Details', {details:restaurantDetails});
+    };
 
 
     return (
@@ -21,7 +32,13 @@ export default function App({navigation}) {
             setClicked={setClicked}
           />
         </View>
+        
         <Text style={styles.header}>Restaurants</Text>
+        <View>
+          <TouchableOpacity onPress={handleRestaurantPress}>
+          <Text>Click here to view restaurant details</Text>
+          </TouchableOpacity>
+        </View>
         <View style={styles.bottomButtonContainer}>
           <Pressable style={styles.button}
                 onPress={() => navigation.navigate('AddRestaurant')}>
