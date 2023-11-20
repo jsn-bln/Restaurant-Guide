@@ -2,7 +2,9 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
 import HomePage from"./Components/Homepage";
 
+
 export default function App() {
+
   return (
     <View style={styles.container}>
       <HomePage />
@@ -16,7 +18,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#f1faee',
-    alignItems: 'center',
-    justifyContent: 'center',
+    paddingTop: 100
   },
 });
