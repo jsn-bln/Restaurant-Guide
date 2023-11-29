@@ -24,18 +24,22 @@ export default function App() {
           headerShown: false,
           cardStyle: { paddingTop: 100, backgroundColor: '#f1faee' }, 
         }}/>
-        <Stack.Screen name="Details" component={Details} 
-        options={{
-          headerShown: false,
-          cardStyle: { paddingTop: 100, backgroundColor: '#f1faee' }, 
-        }}/>
 
-        <Stack.Screen name="About" component={About} 
-        options={{
-          headerShown: false,
-          cardStyle: { paddingTop: 100, backgroundColor: '#f1faee'
-         }, 
-        }}/>
+
+
+
+      <Stack.Screen name="Details" component={Details} 
+      options={{
+        headerShown: false,
+        cardStyle: { paddingTop: 100, backgroundColor: '#f1faee' }, 
+      }}/>
+
+      <Stack.Screen name="About" component={About} 
+      options={{
+        headerShown: false,
+        cardStyle: { paddingTop: 100, backgroundColor: '#f1faee'
+        }, 
+      }}/>
         
     </Stack.Navigator>
   </NavigationContainer>

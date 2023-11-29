@@ -1,24 +1,57 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, Pressable, Dimensions, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, Pressable, Dimensions, TouchableOpacity, FlatList } from 'react-native';
 import SearchBar from './SearchBar';
-import React,{useState} from 'react';
-
+import React,{useState,useEffect} from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 export default function App({navigation}) {
     const [clicked, setClicked] = useState(false);
     const [searchPhrase, setSearchPhrase] = useState('');
-
-    const restaurantDetails = {
-      name:"The Fry",
-      address:"524 Bloor St W",
-      description:"Good korean fried chicken spot",
-      tag:"korean, fried chicken, bussing",
-
+    const[savedRestaurants, setSavedRestaurants] = useState([]);
+    const handleRestaurantPress = (restaurant) => {
+      navigation.navigate('Details', {
+        id:restaurant.restaurantId,
+        name:restaurant.name,
+        address:restaurant.address,
+        description:restaurant.description,
+        tag:restaurant.tag
+      });
     };
-    const handleRestaurantPress = () => {
-      navigation.navigate('Details', {details:restaurantDetails});
-    };
+
+    const handleDelete = async (restaurantId) => {
+      console.log("Deleting restaurant with ID:", restaurantId);
+
+      try {
+        const storedData = await AsyncStorage.getItem('restaurantData');
+        const existingData = JSON.parse(storedData);
+    
+        const updatedData = existingData.filter((restaurant) => restaurant.restaurantId !== restaurantId);
+    
+        await AsyncStorage.setItem('restaurantData', JSON.stringify(updatedData));
+    
+        console.log("Restaurant has been deleted! ", updatedData);
+      } catch (error) {
+        console.error("An error has occurred", error);
+      }
+    }
+
+
+    useEffect(() => {
+      const fetchData = async () => {
+          try{
+              const storedData = await AsyncStorage.getItem('restaurantData')
+              if(storedData){
+                  const parse = JSON.parse(storedData)
+                  setSavedRestaurants(parse)
+              }
+          }catch(error){
+              console.log("Error has ocurred", error)
+
+          }
+      };
+      fetchData();
+  }, []);
 
 
     return (
@@ -33,11 +66,36 @@ export default function App({navigation}) {
           />
         </View>
         
-        <Text style={styles.header}>Restaurants</Text>
+        <Text style={styles.label}>Restaurants</Text>
         <View>
-          <TouchableOpacity onPress={handleRestaurantPress}>
-          <Text>Click here to view restaurant details</Text>
-          </TouchableOpacity>
+          <View>
+            {savedRestaurants.length > 0 ? (
+                <FlatList
+                    data={savedRestaurants}
+                    keyExtractor={(item, index) =>index.toString()}
+                    renderItem={({item}) =>(
+                      <TouchableOpacity onPress={()=> handleRestaurantPress(item)}>
+
+                        <View style={styles.container}>
+                            <Text>{item.name}</Text>
+                           
+                            <Pressable style={styles.deleteBtn} onPress={()=> handleDelete(item.restaurantId)}>
+                              <Text style={styles.text}>Delete</Text>
+                            </Pressable>
+                          
+                        </View>
+                      </TouchableOpacity>
+
+                    )}
+                
+                />
+            ):(
+                <Text>No Saved restaurants found.</Text>
+            )}
+        
+        </View>
+        
+
         </View>
         <View style={styles.bottomButtonContainer}>
           <Pressable style={styles.button}
@@ -89,6 +147,16 @@ export default function App({navigation}) {
       backgroundColor: '#e63946',
       width: 200,
     },
+    deleteBtn: {
+      alignItems: 'center',
+      justifyContent: 'center',
+      paddingVertical: 12,
+      paddingHorizontal: 16,
+      borderRadius: 5,
+      elevation: 3,
+      backgroundColor: '#e63946',
+      width: 100,
+    },
     text: {
       fontSize: 16,
       lineHeight: 21,
@@ -96,6 +164,15 @@ export default function App({navigation}) {
       letterSpacing: 0.25,
       color: 'white',
     },
-   
+    label:{
+      fontWeight: 'bold',
+      fontSize: 20,
+      color: "#1d3557",
+      textAlign: 'center',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+      paddingBottom: 200,
+      backgroundColor: '#f1faee',
+    }
     
   });

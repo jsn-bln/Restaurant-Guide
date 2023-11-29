@@ -2,8 +2,7 @@ import React from 'react';
 import {View, Text, StyleSheet, Pressable} from 'react-native';
 
 const Details = ({ navigation}) => {
-    const {details} = navigation.params || {};
-    const {name, address, description, tag} = details || {};
+    const {name, address, description, tag} = navigation.params || {};
 
     return(
       <View style={styles.container}>
