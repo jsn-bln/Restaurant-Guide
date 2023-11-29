@@ -25,11 +25,12 @@ export default function App({navigation}) {
       try {
         const storedData = await AsyncStorage.getItem('restaurantData');
         const existingData = JSON.parse(storedData);
-    
-        const updatedData = existingData.filter((restaurant) => restaurant.restaurantId !== restaurantId);
+
+        const updatedData = existingData.filter((existingData) => existingData.restaurantId !== restaurantId);
+
     
         await AsyncStorage.setItem('restaurantData', JSON.stringify(updatedData));
-    
+        setSavedRestaurants(updatedData)
         console.log("Restaurant has been deleted! ", updatedData);
       } catch (error) {
         console.error("An error has occurred", error);
@@ -41,10 +42,10 @@ export default function App({navigation}) {
       const fetchData = async () => {
           try{
               const storedData = await AsyncStorage.getItem('restaurantData')
-              if(storedData){
-                  const parse = JSON.parse(storedData)
-                  setSavedRestaurants(parse)
-              }
+              const parse = JSON.parse(storedData)
+              setSavedRestaurants(parse)
+                  
+              
           }catch(error){
               console.log("Error has ocurred", error)
 
@@ -78,6 +79,7 @@ export default function App({navigation}) {
 
                         <View style={styles.container}>
                             <Text>{item.name}</Text>
+                            <Text>{item.id}</Text>
                            
                             <Pressable style={styles.deleteBtn} onPress={()=> handleDelete(item.restaurantId)}>
                               <Text style={styles.text}>Delete</Text>

@@ -1,9 +1,11 @@
-import React, {useState, useEffect,useRef} from 'react';
+import React, {useState, useEffect} from 'react';
 import { View, Text, StyleSheet, TextInput, Pressable } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage'; 
 
 
 const AddRestaurantScreen = ({navigation}) => {
+  const [restaurantIdCounter, setRestaurantIdCounter] = useState(0);
+
 
   const[restaurantData, setRestaurantData] = useState({
     id:0,
@@ -13,6 +15,8 @@ const AddRestaurantScreen = ({navigation}) => {
     tag:'',
   });
 
+
+
   useEffect(() => {
     const fetchData = async () => {
         try{
@@ -20,6 +24,7 @@ const AddRestaurantScreen = ({navigation}) => {
             if(storedData){
                 const parse = JSON.parse(storedData)
                 setRestaurantData(parse)
+                setRestaurantIdCounter(parse.length)
             }
         }catch(error){
             console.log("Error has ocurred", error)
@@ -28,14 +33,16 @@ const AddRestaurantScreen = ({navigation}) => {
     };
     fetchData();
 }, []);
-let restaurantIdCounter = useRef(0);
+
+
+
 const save = async () => {
   try {
     const storedData = await AsyncStorage.getItem('restaurantData');
     const existingData = storedData ? JSON.parse(storedData) : [];
     const updatedData = [
       ...existingData,
-      { ...restaurantData, id: restaurantIdCounter.current++ },
+      { ...restaurantData, id: restaurantIdCounter + 1 },
     ];
 
     await AsyncStorage.setItem('restaurantData', JSON.stringify(updatedData));
@@ -47,9 +54,11 @@ const save = async () => {
       description: '',
       tag: '',
     });
+    setRestaurantIdCounter((prevCounter) => prevCounter + 1);
+
 
     navigation.navigate('Homepage', {
-      id: restaurantData.restaurantIdCounter, 
+      id: restaurantIdCounter + 1,
       name: restaurantData.name,
       address: restaurantData.address,
       description: restaurantData.description,
