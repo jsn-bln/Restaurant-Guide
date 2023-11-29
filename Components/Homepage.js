@@ -11,7 +11,7 @@ export default function App({navigation}) {
     const[savedRestaurants, setSavedRestaurants] = useState([]);
     const handleRestaurantPress = (restaurant) => {
       navigation.navigate('Details', {
-        id:restaurant.restaurantId,
+        id:restaurant.id,
         name:restaurant.name,
         address:restaurant.address,
         description:restaurant.description,

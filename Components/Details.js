@@ -1,37 +1,23 @@
 import React from 'react';
 import {View, Text, StyleSheet, Pressable} from 'react-native';
+ 
+const Details = ({ route}) => {
+    const {id,name, address, description, tag} = route.params;
 
-const Details = ({ navigation}) => {
-    const {id,name, address, description, tag} = navigation.params || {};
+
+ 
+
 
     return(
       <View style={styles.container}>
-        <Text style={styles.title}>{name}</Text>
-        <View style={styles.detailContainer}>
-        <View style={styles.detailItem}>
-            <Text style={styles.label}>Name:</Text>
-            <Text style={styles.detailText}>{name}</Text>
-          </View>
-          <View style={styles.detailItem}>
-            <Text style={styles.label}>Address:</Text>
-            <Text style={styles.detailText}>{address}</Text>
-          </View>
-          <View style={styles.detailItem}>
-            <Text style={styles.label}>Description:</Text>
-            <Text style={styles.detailText}>{description}</Text>
-          </View>
-          <View style={styles.detailItem}>
-            <Text style={styles.label}>Tag:</Text>
-            <Text style={styles.detailText}>{tag}</Text>
-          </View>
-        </View>
-        <View>
+        <Text style={styles.label}>Name: {name}</Text>
+        <Text style={styles.label}>Address: {address}</Text>
+        <Text style={styles.label}>Description: {description}</Text>
+        <Text style={styles.label}>Tag: {tag}</Text>
         <Pressable style={styles.button}
                 onPress={() => navigation.navigate('Homepage')}>
             <Text style={styles.text}>Go Back</Text>
           </Pressable>
-        </View>
-        
       </View>
 
 

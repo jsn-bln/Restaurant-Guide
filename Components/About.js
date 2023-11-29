@@ -6,7 +6,7 @@ const About = ({ navigation}) => {
 
     return(
       <View style={styles.container}>
-        <View style={styles.detailContainer}>
+        <View style={styles.container}>
         <Text style={styles.label}>Jayson Balano - 101397558</Text>
         <Text style={styles.label}>Nhan Nguyen - 101358649</Text>
         <Pressable style={styles.button}
