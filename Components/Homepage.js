@@ -26,7 +26,7 @@ export default function App({navigation}) {
         const storedData = await AsyncStorage.getItem('restaurantData');
         const existingData = JSON.parse(storedData);
 
-        const updatedData = existingData.filter((existingData) => existingData.restaurantId !== restaurantId);
+        const updatedData = existingData.filter((existingData) => existingData.id !== restaurantId);
 
     
         await AsyncStorage.setItem('restaurantData', JSON.stringify(updatedData));
@@ -81,7 +81,7 @@ export default function App({navigation}) {
                             <Text>{item.name}</Text>
                             <Text>{item.id}</Text>
                            
-                            <Pressable style={styles.deleteBtn} onPress={()=> handleDelete(item.restaurantId)}>
+                            <Pressable style={styles.deleteBtn} onPress={()=> handleDelete(item.id)}>
                               <Text style={styles.text}>Delete</Text>
                             </Pressable>
                           
