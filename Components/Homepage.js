@@ -68,28 +68,27 @@ export default function App({navigation}) {
         </View>
         
         <Text style={styles.label}>Restaurants</Text>
-        <View>
+        <View style={{width: '90%'}}>
           <View>
-            {savedRestaurants.length > 0 ? (
+            {savedRestaurants &&  savedRestaurants.length > 0 ? (
                 <FlatList
                     data={savedRestaurants}
                     keyExtractor={(item, index) =>index.toString()}
                     renderItem={({item}) =>(
                       <TouchableOpacity onPress={()=> handleRestaurantPress(item)}>
-
-                        <View style={styles.container}>
+                        <View style={styles.itemContainer}>
                             <Text>{item.name}</Text>
-                            <Text>{item.id}</Text>
-                           
-                            <Pressable style={styles.deleteBtn} onPress={()=> handleDelete(item.id)}>
-                              <Text style={styles.text}>Delete</Text>
-                            </Pressable>
-                          
+                            <View style={styles.btnActionGroup}>
+                              <Pressable onPress={()=> handleDelete(item.id)}>
+                                <Text style={[styles.text, {color: '#e63946'}]}>Delete</Text>
+                              </Pressable>
+                              <Pressable onPress={()=> handleDelete(item.id)}>
+                                <Text style={[styles.text, {color: '#1d3557'}]}>Edit</Text>
+                              </Pressable>
+                            </View>
                         </View>
                       </TouchableOpacity>
-
                     )}
-                
                 />
             ):(
                 <Text>No Saved restaurants found.</Text>
@@ -123,6 +122,14 @@ export default function App({navigation}) {
       justifyContent: 'space-between',
       paddingBottom: 100,
       backgroundColor: '#f1faee',
+    },
+    itemContainer: {
+      width: '100%',
+      display: 'flex',
+      justifyContent: 'space-between',
+      flexDirection: 'row',
+      alignItems: 'center',
+      paddingBottom: 10
     },
     title: {
       fontWeight: 'bold',
@@ -175,6 +182,13 @@ export default function App({navigation}) {
       justifyContent: 'space-between',
       paddingBottom: 200,
       backgroundColor: '#f1faee',
+    },
+    btnActionGroup: {
+      display: 'flex',
+      flexDirection: 'row',
+      justifyContent: 'space-evenly',
+      alignItems: 'center',
+      width: '40%'
     }
     
   });
