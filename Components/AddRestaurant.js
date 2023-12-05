@@ -3,10 +3,10 @@ import { View, Text, StyleSheet, TextInput, Pressable } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage'; 
 
 
-const AddRestaurantScreen = ({navigation}) => {
+const AddRestaurantScreen = ({navigation, route}) => {
   const [restaurantIdCounter, setRestaurantIdCounter] = useState(0);
 
-
+  const [isEditing, setIsEditing] = useState(false);
   const[restaurantData, setRestaurantData] = useState({
     id:0,
     name: '',
@@ -16,9 +16,28 @@ const AddRestaurantScreen = ({navigation}) => {
   });
 
 
+  useEffect(() => {
+    if(route.params){
+      const { isEditing, restaurant } = route.params;
+      if (isEditing) {
+        setIsEditing(true);
+        setRestaurantData({
+          id: restaurant.id,
+          name: restaurant.name,
+          address: restaurant.address,
+          description: restaurant.description,
+          tag: restaurant.tag,
+        });
+      }
+    }
+
+
+  }, [route.params]);
+  
 
   useEffect(() => {
-    const fetchData = async () => {
+    if(!route.params){
+      const fetchData = async () => {
         try{
             const storedData = await AsyncStorage.getItem('restaurantData')
             if(storedData){
@@ -28,22 +47,49 @@ const AddRestaurantScreen = ({navigation}) => {
             }
         }catch(error){
             console.log("Error has ocurred", error)
-
         }
     };
     fetchData();
+    }
 }, []);
 
+console.log("below this is updated data")
+console.log(isEditing)
+console.log(restaurantData)
 
 
 const save = async () => {
   try {
+    let updatedData = [];
+
     const storedData = await AsyncStorage.getItem('restaurantData');
-    const existingData = storedData ? JSON.parse(storedData) : [];
-    const updatedData = [
-      ...existingData,
-      { ...restaurantData, id: restaurantIdCounter + 1 },
-    ];
+    if (storedData) {
+      const existingData = JSON.parse(storedData);
+
+      if (isEditing) {
+        updatedData = existingData.map((restaurant) => {
+          if (restaurant.id === restaurantData.id) {
+            return {
+              ...restaurant,
+              name: restaurantData.name,
+              address: restaurantData.address,
+              description: restaurantData.description,
+              tag: restaurantData.tag,
+            };
+          }
+          return restaurant;
+        });
+      } else {
+        updatedData = [
+          ...existingData,
+          { ...restaurantData, id: restaurantIdCounter + 1 },
+        ];
+      }
+    } else {
+      updatedData = [
+        { ...restaurantData, id: restaurantIdCounter + 1 },
+      ];
+    }
 
     await AsyncStorage.setItem('restaurantData', JSON.stringify(updatedData));
     console.log('Restaurant details have been saved! ', updatedData);
@@ -56,7 +102,6 @@ const save = async () => {
     });
     setRestaurantIdCounter((prevCounter) => prevCounter + 1);
 
-
     navigation.navigate('Homepage', {
       id: restaurantIdCounter + 1,
       name: restaurantData.name,
@@ -68,15 +113,22 @@ const save = async () => {
     console.error('An error has occurred', error);
   }
 };
+
+
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Add Restaurant</Text>
+      {
+        isEditing?
+        <Text style={styles.title}>Edit Restaurant</Text>
+        :
+        <Text style={styles.title}>Add Restaurant</Text>
+      }
       <View style={styles.formContainer}>
         <View style={styles.inputContainer}>
             <Text style={styles.label}>Name</Text>
             <TextInput style={styles.inputField} placeholder='Restaurant name'  
-            value={restaurantData.name}
-            onChangeText={(text)=>
+              value={restaurantData.name}
+              onChangeText={(text)=>
               setRestaurantData((prevData)=> ({...prevData, name: text}))
             } />
           

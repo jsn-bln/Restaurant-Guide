@@ -10,6 +10,7 @@ const Details = ({ route}) => {
 
     return(
       <View style={styles.container}>
+        <Text style={styles.label}>Id: {id}</Text>
         <Text style={styles.label}>Name: {name}</Text>
         <Text style={styles.label}>Address: {address}</Text>
         <Text style={styles.label}>Description: {description}</Text>

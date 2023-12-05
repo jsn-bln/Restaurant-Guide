@@ -28,7 +28,7 @@ export default function App({navigation}) {
 
         const updatedData = existingData.filter((existingData) => existingData.id !== restaurantId);
 
-    
+
         await AsyncStorage.setItem('restaurantData', JSON.stringify(updatedData));
         setSavedRestaurants(updatedData)
         console.log("Restaurant has been deleted! ", updatedData);
@@ -82,9 +82,10 @@ export default function App({navigation}) {
                               <Pressable onPress={()=> handleDelete(item.id)}>
                                 <Text style={[styles.text, {color: '#e63946'}]}>Delete</Text>
                               </Pressable>
-                              <Pressable onPress={()=> handleDelete(item.id)}>
-                                <Text style={[styles.text, {color: '#1d3557'}]}>Edit</Text>
+                              <Pressable onPress={() => navigation.navigate('AddRestaurant', { isEditing: true, restaurant: item })}>
+                                <Text style={[styles.text, { color: '#1d3557' }]}>Edit</Text>
                               </Pressable>
+
                             </View>
                         </View>
                       </TouchableOpacity>
