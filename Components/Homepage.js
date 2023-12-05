@@ -72,25 +72,36 @@ export default function App({navigation}) {
           <View>
             {savedRestaurants &&  savedRestaurants.length > 0 ? (
                 <FlatList
-                    data={savedRestaurants}
-                    keyExtractor={(item, index) =>index.toString()}
-                    renderItem={({item}) =>(
-                      <TouchableOpacity onPress={()=> handleRestaurantPress(item)}>
-                        <View style={styles.itemContainer}>
-                            <Text>{item.name}</Text>
-                            <View style={styles.btnActionGroup}>
-                              <Pressable onPress={()=> handleDelete(item.id)}>
-                                <Text style={[styles.text, {color: '#e63946'}]}>Delete</Text>
-                              </Pressable>
-                              <Pressable onPress={() => navigation.navigate('AddRestaurant', { isEditing: true, restaurant: item })}>
-                                <Text style={[styles.text, { color: '#1d3557' }]}>Edit</Text>
-                              </Pressable>
-
-                            </View>
-                        </View>
-                      </TouchableOpacity>
-                    )}
-                />
+                data={savedRestaurants.filter(
+                  (item) =>
+                    item.name.toLowerCase().includes(searchPhrase.toLowerCase()) ||
+                    item.tag.toLowerCase().includes(searchPhrase.toLowerCase())
+                )}
+                keyExtractor={(item, index) => index.toString()}
+                renderItem={({ item }) => (
+                  <TouchableOpacity onPress={() => handleRestaurantPress(item)}>
+                    <View style={styles.itemContainer}>
+                      <Text>{item.name}</Text>
+                      <View style={styles.btnActionGroup}>
+                        <Pressable onPress={() => handleDelete(item.id)}>
+                          <Text style={[styles.text, { color: "#e63946" }]}>Delete</Text>
+                        </Pressable>
+                        <Pressable
+                          onPress={() =>
+                            navigation.navigate("AddRestaurant", {
+                              isEditing: true,
+                              restaurant: item,
+                            })
+                          }
+                        >
+                          <Text style={[styles.text, { color: "#1d3557" }]}>Edit</Text>
+                        </Pressable>
+                      </View>
+                    </View>
+                  </TouchableOpacity>
+                )}
+              />
+              
             ):(
                 <Text>No Saved restaurants found.</Text>
             )}
